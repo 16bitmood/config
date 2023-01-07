@@ -13,13 +13,18 @@
       alacritty
       discord
       emacs
+      fira-code
       gnome.dconf-editor
       gnome.gnome-tweaks
       gnome.gnome-power-manager
       gnome.gnome-shell-extensions
+      powertop
       vscode
+      libreoffice-qt
+      hunspell
     ];
   };
+
 
   programs = {
     alacritty = {
@@ -34,9 +39,28 @@
             x = 20;
             y = 20;
           };
-          decoration = "false";
+          decorations = "full";
         };
-        font.size = 11;
+    
+        font = {
+          normal = {
+            family = "Fira Code";
+            style = "Regular";
+          };
+          bold = {
+            family = "Fira Code";
+            style = "Bold";
+          };
+          italic = {
+            family = "Fira Code";
+            style = "Italic";
+          };
+          bold_italic = {
+            family = "Fira Code";
+            style = "Bold Italic";
+          };
+          size = 11;
+        };
       };
     };
 
@@ -44,6 +68,7 @@
       enable = true;
       shellAliases = {
         ll = "ls -al";
+        py = "python3";
         snix = "sudo nixos-rebuild --flake /home/gts/main/config#zephyrus switch";
         shome = "home-manager --flake /home/gts/main/config#gts@zephyrus switch";
       };
@@ -79,6 +104,8 @@
       "move-to-workspace-2" = ["<Shift><Super>at"];
       "move-to-workspace-3" = ["<Shift><Super>numbersign"];
       "move-to-workspace-4" = ["<Shift><Super>dollar"];
+      "switch-windows" = ["<Super>Tab"];
+      "switch-applications" = [];
       "switch-to-workspace-1" = ["<Super>1"];
       "switch-to-workspace-2" = ["<Super>2"];
       "switch-to-workspace-3" = ["<Super>3"];
@@ -111,7 +138,7 @@
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Super>Return";
-      command = "alacritty";
+      command = "bash -c 'export WINIT_UNIX_BACKEND=x11 && export WINIT_X11_SCALE_FACTOR=1.0 && alacritty'";
       name = "alacritty";
     };
 

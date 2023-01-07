@@ -26,7 +26,7 @@
         "gts@zephyrus" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
           extraSpecialArgs = { inherit inputs; };
-          modules = [ ./home.nix ];
+          modules = [ ./nixhome/home.nix ];
         };
       };
     };

@@ -64,6 +64,13 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  fonts = {
+    fontconfig.enable = true;
+    fonts = with pkgs; [
+      fira-code
+    ];
+  };
+
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -109,15 +116,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim
-    htop
     git
+    htop
+    python
+    python3
+    vim
     wget
   ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Don't Change
 
 }
