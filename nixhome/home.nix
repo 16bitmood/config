@@ -27,8 +27,16 @@
   };
 
   xdg.configFile."alacritty/alacritty.yml".source = ./.config/alacritty/alacritty.yml;
-  home.file.".emacs.d/init.el".source = ./.emacs.d/init.el;
-  home.file.".emacs.d/config.org".source = ./.emacs.d/config.org;
+  home.file = {
+    ".config/nvim" = {
+      recursive = true;
+      source = ./.config/nvim;
+    };
+    ".emacs.d" = {
+      recursive = true;
+      source = ./.emacs.d;
+    };
+  };
 
   programs = {
     alacritty = {
@@ -55,6 +63,50 @@
       enable = true;
       userName  = "Gurdit Singh Siyan";
       userEmail = "16bitmood@gmail.com";
+    };
+
+    neovim = {
+      enable = true;
+      vimAlias = true;
+      viAlias = true;
+      extraConfig = ''
+        lua <<EOF
+          require('bootstrap')
+          require('variables')
+          require('functions')
+          require('keybinds')
+
+          vim.cmd('colorscheme base16-ashes')
+        EOF
+      '';
+      plugins = with pkgs.vimPlugins; [
+        nvim-base16
+        lush-nvim
+
+        which-key-nvim
+        indent-blankline-nvim
+        nvim-colorizer-lua
+        
+        goyo-vim
+        limelight-vim
+
+        gitsigns-nvim
+
+        plenary-nvim
+
+        vim-sandwich
+        vim-commentary
+
+        nvim-autopairs
+
+        vim-python-pep8-indent
+        markdown-preview-nvim
+
+        nvim-treesitter
+        telescope-nvim
+        popup-nvim
+        telescope-project-nvim
+      ];
     };
 
     vscode = {
