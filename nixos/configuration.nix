@@ -39,6 +39,8 @@
   #   LC_TELEPHONE = "en_IN";
   #   LC_TIME = "en_IN";
   # };
+
+  systemd.services.emacs.enable = true;
   
   systemd.services.disableTurbo = {
     script = ''
