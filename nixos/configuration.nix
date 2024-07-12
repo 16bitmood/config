@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./cachix.nix
   ];
 
   # Nix Flakes
@@ -19,7 +20,6 @@
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   networking.hostName = "gts-nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Enable networking
 
   # Time Zone.
@@ -28,19 +28,9 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # i18n.extraLocaleSettings = {
-  #   LC_ADDRESS = "en_IN";
-  #   LC_IDENTIFICATION = "en_IN";
-  #   LC_MEASUREMENT = "en_IN";
-  #   LC_MONETARY = "en_IN";
-  #   LC_NAME = "en_IN";
-  #   LC_NUMERIC = "en_IN";
-  #   LC_PAPER = "en_IN";
-  #   LC_TELEPHONE = "en_IN";
-  #   LC_TIME = "en_IN";
-  # };
-
-  systemd.services.emacs.enable = true;
+  services.emacs = {
+      enable = true;
+  };
   
   systemd.services.disableTurbo = {
     script = ''
@@ -62,13 +52,25 @@
     xkbOptions = "caps:escape";
   };
 
+
+  # Nvidia Stuff
+  services.xserver.videoDrivers = [ "nvidia" "amdgpu"];
+  hardware.opengl.enable = true;
+
+  # Optionally, you may need to select the appropriate driver version for your specific GPU.
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+  hardware.nvidia.modesetting.enable = true;
+
+
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   fonts = {
     fontconfig.enable = true;
-    fonts = with pkgs; [
+    packages = with pkgs; [
       fira-code
     ];
   };
@@ -108,23 +110,35 @@
     description = "Gurdit";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      cudatoolkit
       firefox
     ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.cudaSupport = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    cachix
+    gcc
     git
     htop
-    python
+    # python
     python3
     vim
     wget
   ];
+  
+  programs = {
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

@@ -228,7 +228,7 @@
 
       (defun 16bm/open-todays-note ()
          (interactive)
-         (let ((daily-name (format-time-string "%y-%m-%d")))
+         (let ((daily-name (format-time-string "%y")))
            (find-file (expand-file-name (concat "~/main/org/journal/" daily-name ".org")))))
 
       (defun 16bm/open-emacs-config ()

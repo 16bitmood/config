@@ -2,7 +2,7 @@
     "org/gnome/desktop/interface" = {
         clock-show-weekday = true;
         "color-scheme" = "prefer-dark";
-        "text-scaling-factor" = 1.2;
+        "text-scaling-factor" = 1;
     };
 
     "org/gnome/shell/keybindings" = {
@@ -20,7 +20,7 @@
         "move-to-workspace-1" = ["<Shift><Super>exclam"];
         "move-to-workspace-2" = ["<Shift><Super>at"];
         "move-to-workspace-3" = ["<Shift><Super>numbersign"];
-        "move-to-workspace-4" = ["<Shift><Super>dollar"];
+        "move-to-workspace-4" = ["<Shift><Super>4"];
         "switch-windows" = ["<Super>Tab"];
         "switch-applications" = [];
         "switch-to-workspace-1" = ["<Super>1"];

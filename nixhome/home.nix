@@ -11,20 +11,68 @@
     homeDirectory = "/home/gts";
     packages = with pkgs; [
       alacritty
+      appimage-run
+      busybox
+      chromium
+      cloc
       discord
       emacs
       fd
+      file
       fira-code
+      gimp
       gnome.dconf-editor
       gnome.gnome-tweaks
       gnome.gnome-power-manager
       gnome.gnome-shell-extensions
-      libreoffice-qt
-      powertop
-      ripgrep
+      haskell.compiler.ghc92
       hunspell
+      julia-bin
+      john
+      kaggle
+      libreoffice-qt
+      mupdf
+      nodejs
+      octave
+      pciutils
+      protonvpn-cli
+      protonvpn-gui
+      powertop
+      (python3.withPackages (ps: with ps; [ 
+        beautifulsoup4
+        ipython
+        jupyter
+        matplotlib
+        networkx
+        numpy
+        opencv4
+        openpyxl
+        pandas
+        pyarrow
+        pylint
+        pwntools
+        requests
+        scikit-learn
+        scikitimage
+        seaborn
+        setuptools
+        statsmodels
+        torch
+        torchvision
+        tqdm
+      ]))
+      qt5.qtwayland
+      ripgrep
+      rustup
+      spotify
+      texlive.combined.scheme-full 
+      tree
+      webcord
+      zip
     ];
   };
+
+  xsession.enable = true;
 
   xdg.configFile."alacritty/alacritty.yml".source = ./.config/alacritty/alacritty.yml;
   home.file = {
@@ -56,6 +104,30 @@
             systemctl --user stop emacs
             systemctl --user start emacs
         }
+
+        function check-turbo() {
+          cat /sys/devices/system/cpu/cpufreq/boost
+        }
+
+        function sudo-disable-turbo() {
+          echo "0" | sudo tee /sys/devices/system/cpu/cpufreq/boost
+        }
+
+        function check-chargelimit() {
+          cat /sys/class/power_supply/BAT0/charge_control_end_threshold 
+        }
+
+        function sudo-disable-fullcharge() {
+          echo "60" | sudo tee /sys/class/power_supply/BAT0/charge_control_end_threshold 
+        }
+
+        function sudo-enable-fullcharge() {
+          echo "100" | sudo tee /sys/class/power_supply/BAT0/charge_control_end_threshold 
+        }
+
+        function sudo-disable-backlight() {
+            echo "0" | sudo tee '/sys/class/leds/asus::kbd_backlight/brightness'
+        }
       '';
     };
 
@@ -77,6 +149,8 @@
           require('keybinds')
 
           vim.cmd('colorscheme base16-ashes')
+
+          require("which-key").setup {}
         EOF
       '';
       plugins = with pkgs.vimPlugins; [
